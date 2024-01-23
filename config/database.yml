@@ -11,10 +11,10 @@ development:
   database: quadzig_development
   min_messages: WARNING
   pool: 52
-  host: localhost
+  host: db
   port: 5432
-  username: quadzig
-  password: password
+  username: postgres
+  password: secret
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

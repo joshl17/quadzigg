@@ -38,6 +38,7 @@ services:
      environment:
        POSTGRES_USER: postgres
        POSTGRES_PASSWORD: secret
+       POSTGRES_DB: quadzig_development
      restart: always
      volumes:
        - postgres:/var/lib/postgresql/data
@@ -48,11 +49,11 @@ services:
       dockerfile: dockerfile.app
     environment:
       RAILS_ENV: test
-      DB_USERNAME: quadzig
-      DB_PASSWORD: password
+      DB_USERNAME: postgres
+      DB_PASSWORD: secret
       DB_HOST: db
       DB_PORT: 5432
-      DB_NAME: quadzig_test
+      DB_NAME: quadzig_development
     volumes:
       - .:/myapp
     depends_on:
