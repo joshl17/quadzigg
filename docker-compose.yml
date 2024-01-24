@@ -47,7 +47,7 @@ services:
       context: .
       dockerfile: dockerfile.app
     environment:
-      RAILS_ENV: test
+      RAILS_ENV: development
       DB_USERNAME: postgres
       DB_PASSWORD: secret
       DB_HOST: db
