@@ -1,4 +1,4 @@
-if ENV['ASSET_PRECOMPILE'].to_i == 0
+	if ENV['ASSET_PRECOMPILE'].to_i == 0
   # TODO: Eventually, separate the into 2 redis clusters
   # One for general redis ops & one for sidekiq
   # TODO: Check if Global is the best way to do this

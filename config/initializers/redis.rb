@@ -1,1 +1,1 @@
-APP_REDIS_POOL = { url: ENV['REDIS_URL'] }
+APP_REDIS_POOL =  { url: ENV['REDIS_URL'] } 

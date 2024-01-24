@@ -11,7 +11,7 @@ development:
   database: quadzig_development
   min_messages: WARNING
   pool: 52
-  host: localhost
+  host: db
   port: 5432
   username: quadzig
   password: password
