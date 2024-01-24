@@ -25,10 +25,10 @@ test:
   database: quadzig_test
   min_messages: WARNING
   pool: 20
-  host: localhost
+  host: db
   port: 5432
-  username: quadzig
-  password: password
+  username: postgres
+  password: secret
 
 staging:
   adapter: postgresql
