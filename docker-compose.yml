@@ -32,29 +32,31 @@ services:
       - .env
 
   db:
-     image: postgres:16-alpine
-     environment:
-       POSTGRES_USER: postgres
-       POSTGRES_PASSWORD: secret
-     restart: always
-     volumes:
-       - postgres:/var/lib/postgresql/data
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
   web:
     build:
       context: .
       dockerfile: dockerfile.app
     environment:
-      RAILS_ENV: test
+      RAILS_ENV: development
       DB_USERNAME: quadzig
       DB_PASSWORD: password
-      DB_HOST: localhost
+      DB_HOST: db
       DB_PORT: 5432
-      DB_NAME: quadzig_test
+      DB_NAME: quadzig_development
     volumes:
       - .:/myapp
     depends_on:
       - db
+      - sidekiq
+      - redis
     ports:
       - '3000:3000'
     restart: on-failure:3
