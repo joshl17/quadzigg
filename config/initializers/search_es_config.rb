@@ -2,12 +2,18 @@ require 'faraday_middleware/aws_sigv4'
 
 if ENV['ASSET_PRECOMPILE'].to_i == 0
   if Rails.env == "development"
-    url = "http://#{ENV['SEARCH_ES_HOST']}:9200"
-    EsClient = Elasticsearch::Client.new url: url, log: true
+#    url = "http://#{ENV['SEARCH_ES_HOST']}:9200"
+#    EsClient = Elasticsearch::Client.new url: url, log: true
+# Elasticsearch client configuration
+     EsClient = Elasticsearch::Client.new(
+     url: "http://#{ENV['SEARCH_ES_HOST']}:9200",
+     log: true,
+     user: ENV['KIBANA_PASSWORD'],
+     password: ENV['ELASTIC_PASSWORD']
+     ) 
   else
     creds = (Aws::ECSCredentials.new).credentials
     url = "https://#{ENV['SEARCH_ES_HOST']}:443"
-
     EsClient = Elasticsearch::Client.new(url: url, log: true) do |f|
       f.request :aws_sigv4,
       credentials: creds,
@@ -36,9 +42,10 @@ if ENV['ASSET_PRECOMPILE'].to_i == 0
     unless EsClient.indices.exists? index: resource_type
       EsClient.indices.create(index: resource_type, body: settings)
     end
-  end
+
 
   # IMPORTANT
   # TODO: Move this elsewhere?
   # EsClient.cluster.put_settings(body: {transient: { search: { allow_expensive_queries: false } } })
 end
+end 
