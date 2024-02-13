@@ -9,14 +9,33 @@ services:
     ports:
       - '80:80'
 
-#  elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
+    environment:
+      - node.name=quadzig-node
+      - cluster.name=es-quadzig-cluster
+      - discovery.type=single-node
+    volumes:
+      - data:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+    env_file:
+      - .env
+#    networks:
+#      - elastic
+
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:8.12.1
 #    environment:
-#      - discovery.type=single-node
+#      - node.name=kibana-quadzig
+#      - cluster.name=kib-quadzig-cluster
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
 #    ports:
-#      - "9200:9200"
-#    env_file:
-#      - .env
+#      - '5601:5601'
+#    networks:
+#      - elastic
+#    depends_on:
+#      - elasticsearch
 
   redis:
     image: redis:7-alpine
@@ -32,6 +51,7 @@ services:
     depends_on:
       - 'redis'
       - 'db'
+      - 'elasticsearch'
     build:
       context: .
       dockerfile: dockerfile.bg
@@ -73,6 +93,12 @@ services:
       - .env
 
 volumes:
+  data:
+    driver: local
   myapp:
   postgres:
   redis:
+
+#networks:
+#  elastic:
+#     driver: bridge
