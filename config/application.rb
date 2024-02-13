@@ -24,7 +24,7 @@ module V3
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
     config.secret_key_base = ENV["SECRET_KEY_BASE"]
-    config.autoload_paths += %W(#{config.root}/app/workers)
+    # config.autoload_paths += %W(#{config.root}/app/workers)
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
