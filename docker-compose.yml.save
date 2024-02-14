@@ -13,34 +13,23 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
     environment:
       - discovery.type=single-node
-#      - xpack.security.enabled=false
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # Set JVM options
-#      - http.host=0.0.0.0  # allow HTTP traffic fron local host 
-#      - "ES_HTTP_CORS_ENABLE=true"  # Enable CORS
-#      - "ES_HTTP_CORS_ALLOW_ORIGIN=*"
-#      - "ES_JAVA_OPTS=-Dcom.sun.net.ssl.checkRevocation=false"  # Disable certificate revocation checks (if needed)
-      # Add any other Elasticsearch settings here
     ports:
       - "9200:9200"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
   redis:
     image: redis:7-alpine
     restart: always
-    command: redis-server
+    command: redis-server #/quadzigg/config/initializers/redis.rb
     ports:
       - '6379:6379'
     volumes:
       - redis:/data
+     # - redis.conf:/quadzigg/config/initializers
 
   sidekiq:
-#    depends_on:
-#      elasticsearch:
-#        condition: service_healthy
+    depends_on:
+      - 'redis'
+      - 'db'
     build:
       context: .
       dockerfile: dockerfile.bg
@@ -57,13 +46,6 @@ services:
     restart: always
     volumes:
       - postgres:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
-
 
   web:
     build:
@@ -82,7 +64,6 @@ services:
       - db
       - sidekiq
       - redis
-      - elasticsearch
     ports:
       - '3000:3000'
     restart: on-failure:3
