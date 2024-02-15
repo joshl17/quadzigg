@@ -38,9 +38,9 @@ services:
       - redis:/data
 
   sidekiq:
-#    depends_on:
-#      elasticsearch:
-#        condition: service_healthy
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
     build:
       context: .
       dockerfile: dockerfile.bg

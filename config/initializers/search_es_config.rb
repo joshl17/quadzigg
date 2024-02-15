@@ -6,11 +6,12 @@ if ENV['ASSET_PRECOMPILE'].to_i == 0
 #    EsClient = Elasticsearch::Client.new url: url, log: true
 # Elasticsearch client configuration
      EsClient = Elasticsearch::Client.new(
-     url: "https://#{ENV['SEARCH_ES_HOST']}:9200",
+     url: "http://#{ENV['SEARCH_ES_HOST']}:9200",
      log: true,
      user: ENV['USER_ES'],
      password: ENV['ELASTIC_PASSWORD'],
-     path: '/'
+     path: '/',
+     protocol: "http"
      ) 
   else
     creds = (Aws::ECSCredentials.new).credentials
