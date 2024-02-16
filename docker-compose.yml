@@ -12,23 +12,6 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
     environment:
-<<<<<<< HEAD
-      - discovery.type=single-node
-#      - xpack.security.enabled=false
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # Set JVM options
-#      - http.host=0.0.0.0  # allow HTTP traffic fron local host 
-#      - "ES_HTTP_CORS_ENABLE=true"  # Enable CORS
-#      - "ES_HTTP_CORS_ALLOW_ORIGIN=*"
-#      - "ES_JAVA_OPTS=-Dcom.sun.net.ssl.checkRevocation=false"  # Disable certificate revocation checks (if needed)
-      # Add any other Elasticsearch settings here
-    ports:
-      - "9200:9200"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-=======
       - node.name=quadzig-node
       - cluster.name=es-quadzig-cluster
       - discovery.type=single-node
@@ -60,8 +43,6 @@ services:
 #      - elastic
 #    depends_on:
 #      - elasticsearch
->>>>>>> dev
-
   redis:
     image: redis:7-alpine
     restart: always
@@ -73,14 +54,9 @@ services:
 
   sidekiq:
     depends_on:
-<<<<<<< HEAD
-      elasticsearch:
-        condition: service_healthy
-=======
       - redis
       - db
       - elasticsearch
->>>>>>> dev
     build:
       context: .
       dockerfile: dockerfile.bg
