@@ -21,7 +21,11 @@ services:
      # - xpack.security.transport.ssl.enabled=true
      # - http.cors.enabled=true
      # - http.cors.allow-origin=*
-
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     volumes:
       - data:/usr/share/elasticsearch/data
     ports:
@@ -54,9 +58,12 @@ services:
 
   sidekiq:
     depends_on:
-      - redis
-      - db
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      db:
+        condition: service_started
     build:
       context: .
       dockerfile: dockerfile.bg

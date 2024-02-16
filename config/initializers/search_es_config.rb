@@ -44,4 +44,4 @@ if ENV['ASSET_PRECOMPILE'].to_i == 0
   # TODO: Move this elsewhere?
   # EsClient.cluster.put_settings(body: {transient: { search: { allow_expensive_queries: false } } })
 end 
-
+end
