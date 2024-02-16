@@ -12,6 +12,7 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
     environment:
+<<<<<<< HEAD
       - discovery.type=single-node
 #      - xpack.security.enabled=false
 #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # Set JVM options
@@ -27,6 +28,39 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+=======
+      - node.name=quadzig-node
+      - cluster.name=es-quadzig-cluster
+      - discovery.type=single-node
+      - ELASTIC_USER=quadzig
+      - ELASTIC_PASSWORD=quadzig123
+      - xpack.security.enabled=false
+     # - xpack.security.transport.ssl.enabled=true
+     # - http.cors.enabled=true
+     # - http.cors.allow-origin=*
+
+    volumes:
+      - data:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+    env_file:
+      - .env
+#    networks:
+#      - elastic
+
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:8.12.1
+#    environment:
+#      - node.name=kibana-quadzig
+#      - cluster.name=kib-quadzig-cluster
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#    ports:
+#      - '5601:5601'
+#    networks:
+#      - elastic
+#    depends_on:
+#      - elasticsearch
+>>>>>>> dev
 
   redis:
     image: redis:7-alpine
@@ -39,8 +73,14 @@ services:
 
   sidekiq:
     depends_on:
+<<<<<<< HEAD
       elasticsearch:
         condition: service_healthy
+=======
+      - redis
+      - db
+      - elasticsearch
+>>>>>>> dev
     build:
       context: .
       dockerfile: dockerfile.bg
@@ -90,6 +130,12 @@ services:
       - .env
 
 volumes:
+  data:
+    driver: local
   myapp:
   postgres:
   redis:
+
+#networks:
+#  elastic:
+#     driver: bridge
