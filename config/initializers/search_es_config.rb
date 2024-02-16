@@ -2,8 +2,11 @@ require 'faraday_middleware/aws_sigv4'
 
 if ENV['ASSET_PRECOMPILE'].to_i == 0
   if Rails.env == "development"
-    url = "http://#{ENV['SEARCH_ES_HOST']}:9200"
-    EsClient = Elasticsearch::Client.new url: url, log: true
+     url = "http://#{ENV['SEARCH_ES_HOST']}:9200"
+     user = ENV['ELASTIC_USER']
+     password = ENV['ELASTIC_PASSWORD']
+     EsClient = Elasticsearch::Client.new(url: url, log: true, user: user, password: password)
+    #EsClient = Elasticsearch::Client.new url: url, log: true
   else
     creds = (Aws::ECSCredentials.new).credentials
     url = "https://#{ENV['SEARCH_ES_HOST']}:443"

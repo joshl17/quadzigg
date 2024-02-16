@@ -15,6 +15,13 @@ services:
       - node.name=quadzig-node
       - cluster.name=es-quadzig-cluster
       - discovery.type=single-node
+      - ELASTIC_USER=quadzig
+      - ELASTIC_PASSWORD=quadzig123
+      - xpack.security.enabled=false
+     # - xpack.security.transport.ssl.enabled=true
+     # - http.cors.enabled=true
+     # - http.cors.allow-origin=*
+
     volumes:
       - data:/usr/share/elasticsearch/data
     ports:
@@ -49,9 +56,9 @@ services:
 
   sidekiq:
     depends_on:
-      - 'redis'
-      - 'db'
-      - 'elasticsearch'
+      - redis
+      - db
+      - elasticsearch
     build:
       context: .
       dockerfile: dockerfile.bg
