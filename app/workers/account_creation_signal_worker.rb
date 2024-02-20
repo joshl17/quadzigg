@@ -10,7 +10,7 @@ class AccountCreationSignalWorker
     queue_name = "AccountAddSQSQueue-quadzig-#{Rails.env}"
 
     AwsRegion.all.each do |region|
-      queue_url = "https://sqs.#{region.region_code}.amazonaws.com/200265524545/#{queue_name}"
+      queue_url = "https://sqs.#{region.region_code}.amazonaws.com/500371445067/#{queue_name}"
       sqs = Aws::SQS::Client.new(
         region: region.region_code
       )
