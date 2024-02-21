@@ -6,15 +6,28 @@ class AccountCreationSignalWorker
 
   sidekiq_options queue: :accounts
 
+#  def perform
+#    queue_name = "AccountAddSQSQueue-quadzig-#{Rails.env}"
+#    print queue_name
+#    AwsRegion.all.each do |region|
+#      queue_url = "https://sqs.eu-west-2.amazonaws.com/500371445067/#{queue_name}"
+#      print queue_url
+#      sqs = Aws::SQS::Client.new(
+#        region: region.region_code
+#      )
   def perform
     queue_name = "AccountAddSQSQueue-quadzig-#{Rails.env}"
 
-#    AwsRegion.all.each do |region|
-      queue_url = "https://sqs.eu-west-2.amazonaws.com/500371445067/#{queue_name}"
-      sqs = Aws::SQS::Client.new(
-        region: "eu-west-2"
-      )
+  # Fetch the AwsRegion object for the eu-west-2 region
+    region = AwsRegion.find_by(region_code: "eu-west-2")
 
+    if region.present?
+      queue_url = "https://sqs.#{region.region_code}.amazonaws.com/500371445067/#{queue_name}"
+      sqs = Aws::SQS::Client.new(region: region.region_code)
+
+    # Proceed with your SQS operations using `queue_url` and `sqs` client
+    else
+      puts "AwsRegion for eu-west-2 not found." 
       # Visibility Timeout should match the frequency of worker schedule
       resp = sqs.receive_message({
         queue_url: queue_url,
@@ -146,5 +159,5 @@ class AccountCreationSignalWorker
         end
       end
     end
-#  end
+  end
 end
