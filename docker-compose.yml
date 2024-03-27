@@ -107,7 +107,7 @@ services:
       - redis
       - elasticsearch
     ports:
-      - '3000:3000'
+      - '0.0.0.0:3000:3000'
     restart: on-failure:3
     env_file:
       - .env

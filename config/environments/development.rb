@@ -63,7 +63,7 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
-
+  config.active_record.legacy_connection_handling = false
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
@@ -71,13 +71,15 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
+  config.web_console.permissions = '13.42.77.46'
+
   config.lograge.formatter = Lograge::Formatters::Json.new
   config.lograge.enabled = true
   config.lograge.base_controller_class = ['ActionController::Base']
   config.lograge.custom_options = lambda do |event|
     {
       request_time: Time.now,
-      application: Rails.application.class.parent_name,
+      application: Rails.application.class.module_parent_name,
       process_id: Process.pid,
       host: event.payload[:host],
       remote_ip: event.payload[:remote_ip],

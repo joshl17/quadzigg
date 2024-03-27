@@ -41,7 +41,7 @@ gem "sentry-sidekiq"
 # sentry depends on this gem and the legendary author has pulled the gem out of the rubygems due to GPL
 gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
 
-gem 'lograge', '~> 0.11.2'
+gem 'lograge', '~> 0.14.0'
 gem 'rubyzip', '~> 2.3.0'
 gem 'elasticsearch', '~> 8.11.0'
 gem 'grape-entity', '~> 0.9.0'

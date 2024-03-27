@@ -4,4 +4,4 @@
 # Running migration from multiple instances should be fine.
 rake db:migrate
 rake db:seed
-rails s
+rails s -b 0.0.0.0
