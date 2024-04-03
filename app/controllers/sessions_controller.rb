@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
 private
 
   def cognito_signin_url
+    puts "entering cognito_signin_url method"
     CognitoUrls.login_uri(ENV['AWS_COGNITO_APP_CLIENT_ID'],
                           signin_redirect_uri)
   end
@@ -30,6 +31,7 @@ private
   end
 
   def signin_redirect_uri
+    puts "entering signin redirect uri method"
     auth_sign_in_url
   end
 
