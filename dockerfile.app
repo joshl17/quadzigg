@@ -9,7 +9,7 @@ RUN apk update
 RUN apk add --no-cache build-base
 
 RUN apk add nodejs npm
-RUN apk add --update nodejs=20.11.1-r0
+RUN apk add --update nodejs=20.12.1-r0
 RUN apk add curl yarn postgresql-dev build-base tzdata git
 
 RUN gem install bundler -v '2.4.5'
