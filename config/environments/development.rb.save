@@ -14,6 +14,8 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   # if Rails.root.join('tmp', 'caching-dev.txt').exist?
@@ -72,24 +74,6 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.web_console.permissions = '13.42.77.46'
-
-  # add UUID for each request made to logs 
-  config.log_tags = %i[uuid]
-
-  # add controller params visibility to logs 
-  config.lograge.custom_payload do |controller|
-  {
-    request_id: controller.request.uuid,
-    params: controller.request.params,
-   # agent: controller.request.env[‘HTTP_USER_AGENT’]
-  }
-  end
-
-  # added additional config.logger config 
-  config.logger = ::Logger.new(STDOUT)
-  config.logger.formatter = proc do |severity, datetime, _progname, msg|
-  %Q({time: #{datetime}, severity: #{severity}, message: #{msg.strip}, request: #{self}\n)
-  end
 
   config.lograge.formatter = Lograge::Formatters::Json.new
   config.lograge.enabled = true
